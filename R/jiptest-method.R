@@ -65,7 +65,7 @@ plot.jip <- function(df,
     )
     legend(
       legend_pos,
-      unique(ac$SOURCE),
+      unique(df$SOURCE),
       col = cls,
       pch = pch,
       cex = leg_cex,
