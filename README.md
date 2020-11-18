@@ -68,13 +68,13 @@ legend(
   bty = "n")
 ```
 
-![ac-sig](https://imgchr.com/i/Devg2t)
+[modulated-raw-signal](https://imgchr.com/i/Devg2t)
 
 here are examples with the defaut parameters except the legend position(normalized fluoresece signals)
 
 ```
 plot(jip_dcdata, legend_pos = "bottomright")
 ```
-![dc-sig](https://imgchr.com/i/Dev2xP)
+[demodulated-normalized-signal](https://imgchr.com/i/Dev2xP)
 
 
