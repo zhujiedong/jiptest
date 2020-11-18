@@ -35,7 +35,7 @@
 plot.jip <- function(df,
                      alpha = 0.6,
                      pch = 19,
-                     col,
+                     col = NULL,
                      leg_bty = "n",
                      leg_cex = 0.6,
                      leg_point_cex = 0.9,
@@ -55,11 +55,14 @@ plot.jip <- function(df,
 
   ncols <- length(unique(df$SOURCE))
   fct <- as.factor(df$SOURCE)
+  if(is.null(col)){
   cls <-
     palette.colors(n = ncols,
                    "set 2",
                    alpha = alpha,
                    recycle = TRUE)
+  col = cls
+  }
 # normalized y axis -------------------------------------------------------
 
   max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
@@ -82,7 +85,7 @@ plot.jip <- function(df,
         ylim = ylim,
         xlab = xlab,
         ylab = ylab,
-        col = cls[fct],
+        col = col[fct],
         pch = pch,
         xaxt = "n",
         ...
@@ -93,7 +96,7 @@ plot.jip <- function(df,
       legend(
         legend_pos,
         unique(df$SOURCE),
-        col = cls,
+        col = col,
         pch = pch,
         cex = leg_cex,
         pt.cex = leg_point_cex,
@@ -113,7 +116,7 @@ plot.jip <- function(df,
           ylim = ylim,
           xlab = xlab,
           ylab = ylab,
-          col = cls[fct],
+          col = col[fct],
           pch = pch,
           xaxt = "n"
         )
@@ -123,7 +126,7 @@ plot.jip <- function(df,
       legend(
         legend_pos,
         unique(df$SOURCE),
-        col = cls,
+        col = col,
         pch = pch,
         cex = leg_cex,
         pt.cex = leg_point_cex,

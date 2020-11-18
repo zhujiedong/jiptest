@@ -8,7 +8,7 @@
   df,
   alpha = 0.6,
   pch = 19,
-  col,
+  col = NULL,
   leg_bty = "n",
   leg_cex = 0.6,
   leg_point_cex = 0.9,
