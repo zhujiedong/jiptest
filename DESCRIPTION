@@ -10,7 +10,7 @@ Authors@R: c(
     )
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: ggplot2, readxl, MESS, scales
+Imports: readxl, MESS
 LazyData: yes
 License: GPL-3
 Packaged: 2018-07-17

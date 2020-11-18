@@ -11,17 +11,24 @@
 #' @param leg_cex text size of legend
 #' @param leg_point_cex point size of legend
 #' @param leg_bty bty in \code{legend}
+#' @param xlim Limits for the Y axis, the default should be enough
+#' for most cases
 #' @param ylim Limits for the Y axis, if left blank estimated from data
 #' @param xlab inherited from plot.default
 #' @param ylab inherited from plot.default
 #' @param col inherited from plot.default
 #' @param log inherited from plot.default
+#' @param xmark x tick marks values
+#' @param xat at which the x axis tick marks are ploted
+#' @param normalized whether use normorlized fluor signal
+#' @param add_leg defaut is true, add lengend directly
 #' @param ... other parameters in \code{plot}
 #' @importFrom graphics points
 #' @importFrom graphics abline
 #' @importFrom graphics legend
 #' @importFrom graphics text
 #' @importFrom grDevices palette.colors
+#' @importFrom graphics axis
 #' @export
 #'
 
@@ -33,15 +40,19 @@ plot.jip <- function(df,
                      leg_cex = 0.6,
                      leg_point_cex = 0.9,
                      legend_pos = "topleft",
+                     xlim = c(5e-06, 1.1),
                      ylim=NULL,
                      log = "x",
                      xlab = "Time (Secs)",
                      ylab = "Fluorescence signal",
+                     xmark = c(expression(10^{-5}, 10^{-4}, 10^{-3},
+                                          10^{-2}, 10^{-1}, 10^0)),
+                     xat = c(0.00001, 0.0001, 0.001, 0.01, 0.1, 1),
+                     normalized = TRUE, add_leg = TRUE,
                      ...){
-  if (is.null(ylim)){
-    ylims <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
-  }
-  #   if(is.null(xlim))xlim <- with(df,c(0, max(SECS)))
+
+# colors ------------------------------------------------------------------
+
   ncols <- length(unique(df$SOURCE))
   fct <- as.factor(df$SOURCE)
   cls <-
@@ -49,29 +60,76 @@ plot.jip <- function(df,
                    "set 2",
                    alpha = alpha,
                    recycle = TRUE)
+# normalized y axis -------------------------------------------------------
+
+  max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
+  #no. of each factors
+  n_group <- table(fct)
+  n_source <- unlist(mapply(rep, max_flr, each = n_group))
+  #if each elements in n_group are the same, n_source will be arry
+  n_source <- as.vector(n_source)
+  df$NORM_FLUOR <- df$FLUOR/n_source
+
+# plot --------------------------------------------------------------------
+  if(normalized){
+    ylim <- c(0, 1.1)
     with(
       df,
       plot(
         SECS,
-        FLUOR,
+        NORM_FLUOR,
         log = "x",
-        ylim = ylims,
+        ylim = ylim,
         xlab = xlab,
         ylab = ylab,
         col = cls[fct],
         pch = pch,
+        xaxt = "n",
         ...
       )
     )
-    legend(
-      legend_pos,
-      unique(df$SOURCE),
-      col = cls,
-      pch = pch,
-      cex = leg_cex,
-      pt.cex = leg_point_cex,
-      bty = leg_bty,
-      ...
-    )
+    axis(1, at = xat, labels = xmark)
+    if(add_leg){
+      legend(
+        legend_pos,
+        unique(df$SOURCE),
+        col = cls,
+        pch = pch,
+        cex = leg_cex,
+        pt.cex = leg_point_cex,
+        bty = leg_bty,
+        ...
+      )}
+    } else{
+      if (is.null(ylim)) {
+        ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
+      }
+      with(
+        df,
+        plot(
+          SECS,
+          FLUOR,
+          log = "x",
+          ylim = ylim,
+          xlab = xlab,
+          ylab = ylab,
+          col = cls[fct],
+          pch = pch,
+          xaxt = "n"
+        )
+      )
+      axis(1, at = xat, labels = xmark)
+      if(add_leg){
+      legend(
+        legend_pos,
+        unique(df$SOURCE),
+        col = cls,
+        pch = pch,
+        cex = leg_cex,
+        pt.cex = leg_point_cex,
+        bty = leg_bty,
+        ...
+      )}
+    }
   }
 

@@ -13,10 +13,16 @@
   leg_cex = 0.6,
   leg_point_cex = 0.9,
   legend_pos = "topleft",
+  xlim = c(5e-06, 1.1),
   ylim = NULL,
   log = "x",
   xlab = "Time (Secs)",
   ylab = "Fluorescence signal",
+  xmark = c(expression(10^{     -5 }, 10^{     -4 }, 10^{     -3 }, 10^{     -2 }, 10^{
+        -1 }, 10^0)),
+  xat = c(1e-05, 1e-04, 0.001, 0.01, 0.1, 1),
+  normalized = TRUE,
+  add_leg = TRUE,
   ...
 )
 }
@@ -37,6 +43,9 @@
 
 \item{legend_pos}{inherited from \code{legend} position}
 
+\item{xlim}{Limits for the Y axis, the default should be enough
+for most cases}
+
 \item{ylim}{Limits for the Y axis, if left blank estimated from data}
 
 \item{log}{inherited from plot.default}
@@ -44,6 +53,14 @@
 \item{xlab}{inherited from plot.default}
 
 \item{ylab}{inherited from plot.default}
+
+\item{xmark}{x tick marks values}
+
+\item{xat}{at which the x axis tick marks are ploted}
+
+\item{normalized}{whether use normorlized fluor signal}
+
+\item{add_leg}{defaut is true, add lengend directly}
 
 \item{...}{other parameters in \code{plot}}
 }
