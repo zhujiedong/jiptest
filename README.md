@@ -63,6 +63,7 @@ plot(jip_dcdata)
 ```
 
 [default Normalized AC signal](https://imgchr.com/i/Du0tsS)
+
 [default Normalized DC signal](https://imgchr.com/i/Du08RP)
 
 2. customized way
@@ -92,7 +93,9 @@ legend(
 ```{r, cus-dc-plot-leg-cls, fig.cap="定制连续光图形示例"}
 plot(jip_dcdata, legend_pos = "bottomright", normalized = FALSE)
 ```
+
 [customized AC raw signal](https://imgchr.com/i/Du0YM8)
+
 [customized DC raw signal](https://imgchr.com/i/Du0Gxf)
 
 if you can read Chinese, please follow:
