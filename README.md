@@ -50,31 +50,52 @@ where "jipdata" is a folder contains all your measured data, and only contains t
 
 supply a method `plot.jip` to plot, we can choose to use normalized fluorescence signals or the raw fluorescence signals, that is to say, you can customized you plot
 
-here are customized legend plot with the raw fluorescence signals 
+here are some examples：
+
+1. the default way, use normalized fluorescence signals
+
 ```
+plot(jip_data)
+```
+
+```
+plot(jip_dcdata)
+```
+
+[default Normalized AC signal](https://imgchr.com/i/Du0tsS)
+[default Normalized DC signal](https://imgchr.com/i/Du08RP)
+
+2. customized way
+
+please refer to: `?plot.jip`.
+
+```
+cls <- palette.colors(n = 5,  "set 2", alpha = 0.8)
 plot(jip_data,
      ylab = 'Normalized fluorescence signals',
      add_leg = FALSE,
-     col = palette.colors(n = 5,  "set 1", alpha = 0.8),
+     def_pch = 14:18,
+     col = cls,
      main = "Demodulated signals", pch = 14, normalized = FALSE)
 
 legend(
   "topleft",
   unique(jip_data$SOURCE),
-  col = palette.colors(n = 5,  "set 1", alpha = 0.8),
-  pch = 14,
+  col = cls,
+  pch = 14:18,
   cex = 0.6,
   pt.cex = 1.2,
   bty = "n")
 ```
 
-[modulated-raw-signal](https://imgchr.com/i/Devg2t)
 
-here are examples with the defaut parameters except the legend position(normalized fluoresece signals)
-
+```{r, cus-dc-plot-leg-cls, fig.cap="定制连续光图形示例"}
+plot(jip_dcdata, legend_pos = "bottomright", normalized = FALSE)
 ```
-plot(jip_dcdata, legend_pos = "bottomright")
-```
-[demodulated-normalized-signal](https://imgchr.com/i/Dev2xP)
+[customized AC raw signal](https://imgchr.com/i/Du0YM8)
+[customized DC raw signal](https://imgchr.com/i/Du0Gxf)
 
+if you can read Chinese, please follow:
+
+[Chinese guide](https://zhujiedong.github.io/photoanalysis/)
 
