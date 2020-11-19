@@ -23,6 +23,7 @@
   xat = c(1e-05, 1e-04, 0.001, 0.01, 0.1, 1),
   normalized = TRUE,
   add_leg = TRUE,
+  add_grid = TRUE,
   ...
 )
 }
@@ -61,6 +62,8 @@ for most cases}
 \item{normalized}{whether use normorlized fluor signal}
 
 \item{add_leg}{defaut is true, add lengend directly}
+
+\item{add_grid}{add grid lines in the plot if TRUE(default)}
 
 \item{...}{other parameters in \code{plot}}
 }

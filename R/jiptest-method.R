@@ -22,6 +22,7 @@
 #' @param xat at which the x axis tick marks are ploted
 #' @param normalized whether use normorlized fluor signal
 #' @param add_leg defaut is true, add lengend directly
+#' @param add_grid add grid lines in the plot if TRUE(default)
 #' @param ... other parameters in \code{plot}
 #' @importFrom graphics points
 #' @importFrom graphics abline
@@ -29,6 +30,7 @@
 #' @importFrom graphics text
 #' @importFrom grDevices palette.colors
 #' @importFrom graphics axis
+#' @importFrom graphics grid
 #' @export
 #'
 
@@ -48,7 +50,9 @@ plot.jip <- function(df,
                      xmark = c(expression(10^{-5}, 10^{-4}, 10^{-3},
                                           10^{-2}, 10^{-1}, 10^0)),
                      xat = c(0.00001, 0.0001, 0.001, 0.01, 0.1, 1),
-                     normalized = TRUE, add_leg = TRUE,
+                     normalized = TRUE,
+                     add_leg = TRUE,
+                     add_grid = TRUE,
                      ...){
   # colors ------------------------------------------------------------------
 
@@ -98,6 +102,7 @@ plot.jip <- function(df,
         ...
       )
     )
+    if(add_grid){grid()}
     axis(1, at = xat, labels = xmark)
     if (add_leg){
       legend(
@@ -128,7 +133,7 @@ plot.jip <- function(df,
         xaxt = "n"
       )
     )
-
+    if(add_grid){grid()}
     axis(1, at = xat, labels = xmark)
     if (add_leg) {
       legend(
