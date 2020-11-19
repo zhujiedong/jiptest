@@ -7,7 +7,7 @@
 \method{plot}{jip}(
   df,
   alpha = 0.6,
-  pch = 19,
+  def_pch = 19,
   col = NULL,
   leg_bty = "n",
   leg_cex = 0.6,
@@ -31,7 +31,7 @@
 
 \item{alpha}{the transparent degree of colors in the plot}
 
-\item{pch}{inherited from plot.default}
+\item{def_pch}{the pch of default plot method}
 
 \item{col}{inherited from plot.default}
 

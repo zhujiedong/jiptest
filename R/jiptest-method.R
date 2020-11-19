@@ -5,7 +5,7 @@
 #' curves in log axis (BLUE > 1.2.2)}
 #'
 #' @param df files read by \code{read_files} or \code{read_dcfiles}
-#' @param pch inherited from plot.default
+#' @param def_pch the pch of default plot method
 #' @param alpha the transparent degree of colors in the plot
 #' @param legend_pos inherited from \code{legend} position
 #' @param leg_cex text size of legend
@@ -34,7 +34,7 @@
 
 plot.jip <- function(df,
                      alpha = 0.6,
-                     pch = 19,
+                     def_pch = 19,
                      col = NULL,
                      leg_bty = "n",
                      leg_cex = 0.6,
@@ -56,12 +56,11 @@ plot.jip <- function(df,
   ncols <- length(unique(df$SOURCE))
   fct <- as.factor(df$SOURCE)
   if(is.null(col)){
-  cls <-
+  col <-
     palette.colors(n = ncols,
-                   "set 2",
+                   "set 1",
                    alpha = alpha,
                    recycle = TRUE)
-  col = cls
   }
 # normalized y axis -------------------------------------------------------
 
@@ -74,35 +73,36 @@ plot.jip <- function(df,
   df$NORM_FLUOR <- df$FLUOR/n_source
 
 # plot --------------------------------------------------------------------
-  if(normalized){
-    ylim <- c(0, 1.1)
-    with(
-      df,
-      plot(
-        SECS,
-        NORM_FLUOR,
-        log = "x",
-        ylim = ylim,
-        xlab = xlab,
-        ylab = ylab,
-        col = col[fct],
-        pch = pch,
-        xaxt = "n",
-        ...
+ if(length(def_pch) > 1){ #plot with given multiple pch
+    if(normalized){
+      ylim <- c(0, 1.1)
+      with(
+        df,
+        plot(
+          SECS,
+          NORM_FLUOR,
+          log = "x",
+          ylim = ylim,
+          xlab = xlab,
+          ylab = ylab,
+          col = col[fct],
+          pch = def_pch[fct],
+          xaxt = "n",
+          ...
+        )
       )
-    )
-    axis(1, at = xat, labels = xmark)
-    if(add_leg){
-      legend(
-        legend_pos,
-        unique(df$SOURCE),
-        col = col,
-        pch = pch,
-        cex = leg_cex,
-        pt.cex = leg_point_cex,
-        bty = leg_bty,
-        ...
-      )}
+      axis(1, at = xat, labels = xmark)
+      if(add_leg){
+        legend(
+          legend_pos,
+          unique(df$SOURCE),
+          col = col,
+          pch = def_pch,
+          cex = leg_cex,
+          pt.cex = leg_point_cex,
+          bty = leg_bty,
+          ...
+        )}
     } else{
       if (is.null(ylim)) {
         ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
@@ -117,22 +117,83 @@ plot.jip <- function(df,
           xlab = xlab,
           ylab = ylab,
           col = col[fct],
-          pch = pch,
+          pch = def_pch[fct],
           xaxt = "n"
         )
       )
       axis(1, at = xat, labels = xmark)
       if(add_leg){
-      legend(
-        legend_pos,
-        unique(df$SOURCE),
-        col = col,
-        pch = pch,
-        cex = leg_cex,
-        pt.cex = leg_point_cex,
-        bty = leg_bty,
-        ...
-      )}
+        legend(
+          legend_pos,
+          unique(df$SOURCE),
+          col = col,
+          pch = def_pch,
+          cex = leg_cex,
+          pt.cex = leg_point_cex,
+          bty = leg_bty,
+          ...
+        )}
+    }
+  } else{## plot with given pch
+    if(normalized){
+      ylim <- c(0, 1.1)
+      with(
+        df,
+        plot(
+          SECS,
+          NORM_FLUOR,
+          log = "x",
+          ylim = ylim,
+          xlab = xlab,
+          ylab = ylab,
+          col = col[fct],
+          pch = def_pch,
+          xaxt = "n",
+          ...
+        )
+      )
+      axis(1, at = xat, labels = xmark)
+      if(add_leg){
+        legend(
+          legend_pos,
+          unique(df$SOURCE),
+          col = col,
+          pch = def_pch,
+          cex = leg_cex,
+          pt.cex = leg_point_cex,
+          bty = leg_bty,
+          ...
+        )}
+    } else{
+      if (is.null(ylim)) {
+        ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
+      }
+      with(
+        df,
+        plot(
+          SECS,
+          FLUOR,
+          log = "x",
+          ylim = ylim,
+          xlab = xlab,
+          ylab = ylab,
+          col = col[fct],
+          pch = def_pch,
+          xaxt = "n"
+        )
+      )
+      axis(1, at = xat, labels = xmark)
+      if(add_leg){
+        legend(
+          legend_pos,
+          unique(df$SOURCE),
+          col = col,
+          pch = def_pch,
+          cex = leg_cex,
+          pt.cex = leg_point_cex,
+          bty = leg_bty,
+          ...
+        )}
     }
   }
-
+  }
