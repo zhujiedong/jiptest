@@ -41,7 +41,7 @@ plot.jip <- function(df,
                      leg_point_cex = 0.9,
                      legend_pos = "topleft",
                      xlim = c(5e-06, 1.1),
-                     ylim=NULL,
+                     ylim = NULL,
                      log = "x",
                      xlab = "Time (Secs)",
                      ylab = "Fluorescence signal",
@@ -50,19 +50,18 @@ plot.jip <- function(df,
                      xat = c(0.00001, 0.0001, 0.001, 0.01, 0.1, 1),
                      normalized = TRUE, add_leg = TRUE,
                      ...){
-
-# colors ------------------------------------------------------------------
+  # colors ------------------------------------------------------------------
 
   ncols <- length(unique(df$SOURCE))
   fct <- as.factor(df$SOURCE)
-  if(is.null(col)){
-  col <-
-    palette.colors(n = ncols,
-                   "set 1",
-                   alpha = alpha,
-                   recycle = TRUE)
+  if (is.null(col)) {
+    col <-
+      palette.colors(n = ncols,
+                     "set 1",
+                     alpha = alpha,
+                     recycle = TRUE)
   }
-# normalized y axis -------------------------------------------------------
+  # normalized y axis -------------------------------------------------------
 
   max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
   #no. of each factors
@@ -70,130 +69,77 @@ plot.jip <- function(df,
   n_source <- unlist(mapply(rep, max_flr, each = n_group))
   #if each elements in n_group are the same, n_source will be arry
   n_source <- as.vector(n_source)
-  df$NORM_FLUOR <- df$FLUOR/n_source
+  df$NORM_FLUOR <- df$FLUOR / n_source
 
-# plot --------------------------------------------------------------------
- if(length(def_pch) > 1){ #plot with given multiple pch
-    if(normalized){
-      ylim <- c(0, 1.1)
-      with(
-        df,
-        plot(
-          SECS,
-          NORM_FLUOR,
-          log = "x",
-          ylim = ylim,
-          xlab = xlab,
-          ylab = ylab,
-          col = col[fct],
-          pch = def_pch[fct],
-          xaxt = "n",
-          ...
-        )
-      )
-      axis(1, at = xat, labels = xmark)
-      if(add_leg){
-        legend(
-          legend_pos,
-          unique(df$SOURCE),
-          col = col,
-          pch = def_pch,
-          cex = leg_cex,
-          pt.cex = leg_point_cex,
-          bty = leg_bty,
-          ...
-        )}
-    } else{
-      if (is.null(ylim)) {
-        ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
-      }
-      with(
-        df,
-        plot(
-          SECS,
-          FLUOR,
-          log = "x",
-          ylim = ylim,
-          xlab = xlab,
-          ylab = ylab,
-          col = col[fct],
-          pch = def_pch[fct],
-          xaxt = "n"
-        )
-      )
-      axis(1, at = xat, labels = xmark)
-      if(add_leg){
-        legend(
-          legend_pos,
-          unique(df$SOURCE),
-          col = col,
-          pch = def_pch,
-          cex = leg_cex,
-          pt.cex = leg_point_cex,
-          bty = leg_bty,
-          ...
-        )}
-    }
-  } else{## plot with given pch
-    if(normalized){
-      ylim <- c(0, 1.1)
-      with(
-        df,
-        plot(
-          SECS,
-          NORM_FLUOR,
-          log = "x",
-          ylim = ylim,
-          xlab = xlab,
-          ylab = ylab,
-          col = col[fct],
-          pch = def_pch,
-          xaxt = "n",
-          ...
-        )
-      )
-      axis(1, at = xat, labels = xmark)
-      if(add_leg){
-        legend(
-          legend_pos,
-          unique(df$SOURCE),
-          col = col,
-          pch = def_pch,
-          cex = leg_cex,
-          pt.cex = leg_point_cex,
-          bty = leg_bty,
-          ...
-        )}
-    } else{
-      if (is.null(ylim)) {
-        ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
-      }
-      with(
-        df,
-        plot(
-          SECS,
-          FLUOR,
-          log = "x",
-          ylim = ylim,
-          xlab = xlab,
-          ylab = ylab,
-          col = col[fct],
-          pch = def_pch,
-          xaxt = "n"
-        )
-      )
-      axis(1, at = xat, labels = xmark)
-      if(add_leg){
-        legend(
-          legend_pos,
-          unique(df$SOURCE),
-          col = col,
-          pch = def_pch,
-          cex = leg_cex,
-          pt.cex = leg_point_cex,
-          bty = leg_bty,
-          ...
-        )}
-    }
+
+# define pch --------------------------------------------------------------
+  #ifelse returns a value with the same shape as test
+  if(length(def_pch)>1){
+    def_pch <- def_pch[fct]
+  } else{
+    def_pch
   }
-  }
+
+# plot --------------------------------------------------
+  if (normalized){
+    ylim <- c(0, 1.1)
+    with(
+      df,
+      plot(
+        SECS,
+        NORM_FLUOR,
+        log = "x",
+        ylim = ylim,
+        xlab = xlab,
+        ylab = ylab,
+        col = col[fct],
+        pch = def_pch,
+        xaxt = "n",
+        ...
+      )
+    )
+    axis(1, at = xat, labels = xmark)
+    if (add_leg){
+      legend(
+        legend_pos,
+        unique(df$SOURCE),
+        col = col,
+        pch = def_pch,
+        cex = leg_cex,
+        pt.cex = leg_point_cex,
+        bty = leg_bty,
+        ...
+      )
+    }} else{
+    if (is.null(ylim)){
+      ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
+    }
+    with(
+      df,
+      plot(
+        SECS,
+        FLUOR,
+        log = "x",
+        ylim = ylim,
+        xlab = xlab,
+        ylab = ylab,
+        col = col[fct],
+        pch = def_pch,
+        xaxt = "n"
+      )
+    )
+
+    axis(1, at = xat, labels = xmark)
+    if (add_leg) {
+      legend(
+        legend_pos,
+        unique(df$SOURCE),
+        col = col,
+        pch = def_pch,
+        cex = leg_cex,
+        pt.cex = leg_point_cex,
+        bty = leg_bty,
+        ...
+      )
+    }}
+}
