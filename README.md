@@ -8,6 +8,7 @@ library(jiptest)
 # jiptest
 
 this is an R package for jip test of LI-6800 (from licor) measured fluorescence induction data. it is designed for batch readings and writings,
+
 currently you should put all your excel files of the measured data in a separate folder, to avoid errors.
 
 ## read_files and read_dcfiles
