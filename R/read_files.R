@@ -42,12 +42,16 @@ read_files <- function(file_dir) {
   # normalized y axis -------------------------------------------
   #no. of each factors
   fct <- as.factor(ojip$SOURCE)
+  #NORMALIZED BY (FT-FO)/(FM-FO)
   max_flr <- with(ojip, tapply(FLUOR, fct, max))
+  min_flr <- with(ojip, tapply(FLUOR, fct, min))
   n_group <- table(fct)
-  n_source <- unlist(mapply(rep, max_flr, each = n_group))
+  n_max <- unlist(mapply(rep, max_flr, each = n_group))
+  n_min <- unlist(mapply(rep, min_flr, each = n_group))
   #if each elements in n_group are the same, n_source will be arry
-  n_source <- as.vector(n_source)
-  ojip$NORM_FLUOR <- ojip$FLUOR / n_source
+  n_max <- as.vector(n_max)
+  n_min <- as.vector(n_min)
+  ojip$NORM_FLUOR <- (ojip$FLUOR - n_min) / (n_max - n_min)
   #-------------------------------------------------------
   ojip <- ojip[c('SECS', 'FLUOR', 'NORM_FLUOR', "SOURCE")]
   # important to make jip the first class attribute
