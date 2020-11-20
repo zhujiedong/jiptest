@@ -20,6 +20,9 @@
 #' @export
 
 read_files <- function(file_dir) {
+  message(
+    "\ncurrently we should use the default 1 secs settings of saturate pulse\n"
+  )
   fi <- list.files(file_dir, full.names = TRUE)
 #  fi_names <- stringr::str_replace(fi, paste(file_dir, "/", sep = ""), "")
 #  fi_names <- stringr::str_replace(fi_names, ".xlsx", "")
@@ -36,6 +39,17 @@ read_files <- function(file_dir) {
   names(ojip) <- c("SECS", "FLUOR", "SOURCE")
   ojip <- as.data.frame(ojip)
   ojip <- ojip[order(ojip$SOURCE),]
+  # normalized y axis -------------------------------------------
+  #no. of each factors
+  fct <- as.factor(ojip$SOURCE)
+  max_flr <- with(ojip, tapply(FLUOR, fct, max))
+  n_group <- table(fct)
+  n_source <- unlist(mapply(rep, max_flr, each = n_group))
+  #if each elements in n_group are the same, n_source will be arry
+  n_source <- as.vector(n_source)
+  ojip$NORM_FLUOR <- ojip$FLUOR / n_source
+  #-------------------------------------------------------
+  ojip <- ojip[c('SECS', 'FLUOR', 'NORM_FLUOR', "SOURCE")]
   # important to make jip the first class attribute
   class(ojip) <- c("jip", class(ojip))
   return(ojip)

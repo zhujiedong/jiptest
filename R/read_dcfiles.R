@@ -21,8 +21,8 @@
 
 read_dcfiles <- function(file_dir) {
   message(
-  "for the current version, we suggest you use the default settings of\n
-  the duration (1000 ms or more) in the induction settings of LI-6800")
+    "\ncurrently we should use the default 1 secs settings of saturate pulse\n"
+  )
   fi <- list.files(file_dir, full.names = TRUE)
   #  fi_names <- stringr::str_replace(fi, paste(file_dir, "/", sep = ""), "")
   #  fi_names <- stringr::str_replace(fi_names, ".xlsx", "")
@@ -38,10 +38,25 @@ read_dcfiles <- function(file_dir) {
   ojip$SOURCE <- rep(fi_names, 1, each = l)
   names(ojip) <- c("SECS", "FLUOR", "DC", "SOURCE")
 
-  ojip <- data.frame(ojip$SECS, ojip$DC, ojip$SOURCE)
-  names(ojip) <- c("SECS", "FLUOR", "SOURCE")
+  ojip <-
+    data.frame(SECS = ojip$SECS,
+               FLUOR = ojip$DC,
+               SOURCE = ojip$SOURCE)
+
   ojip <- as.data.frame(ojip)
   ojip <- ojip[order(ojip$SOURCE),]
+
+  # normalized y axis -------------------------------------------
+  #no. of each factors
+  fct <- as.factor(ojip$SOURCE)
+  max_flr <- with(ojip, tapply(FLUOR, fct, max))
+  n_group <- table(fct)
+  n_source <- unlist(mapply(rep, max_flr, each = n_group))
+  #if each elements in n_group are the same, n_source will be arry
+  n_source <- as.vector(n_source)
+  ojip$NORM_FLUOR <- ojip$FLUOR / n_source
+  #-------------------------------------------------------
+  ojip <- ojip[c('SECS', 'FLUOR', 'NORM_FLUOR', "SOURCE")]
   # important to make jip the first class attribute
   class(ojip) <- c("jip", class(ojip))
   return((ojip))

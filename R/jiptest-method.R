@@ -67,13 +67,13 @@ plot.jip <- function(df,
   }
   # normalized y axis -------------------------------------------------------
 
-  max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
+  #max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
   #no. of each factors
-  n_group <- table(fct)
-  n_source <- unlist(mapply(rep, max_flr, each = n_group))
+  #n_group <- table(fct)
+  #n_source <- unlist(mapply(rep, max_flr, each = n_group))
   #if each elements in n_group are the same, n_source will be arry
-  n_source <- as.vector(n_source)
-  df$NORM_FLUOR <- df$FLUOR / n_source
+  #n_source <- as.vector(n_source)
+  #df$NORM_FLUOR <- df$FLUOR / n_source
 
 
 # define pch --------------------------------------------------------------

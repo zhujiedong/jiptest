@@ -4,10 +4,12 @@
 \alias{jip_dctest}
 \title{apply jip test data analysis to the data measured by LI-6800 in batch}
 \usage{
-jip_dctest(file_dir)
+jip_dctest(file_dir, normalized = FALSE)
 }
 \arguments{
 \item{file_dir}{is the file directory only contains all the measured data saved as .xlsx.}
+
+\item{normalized}{use normalized data if TRUE}
 }
 \description{
 return jip test parameters from the induction data measured by

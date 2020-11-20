@@ -4,10 +4,12 @@
 \alias{jip_comp}
 \title{compute the parameters of jip test}
 \usage{
-jip_comp(jip_data)
+jip_comp(jip_data, normalized = FALSE)
 }
 \arguments{
 \item{jip_data}{data for jip test}
+
+\item{normalized}{use normalized data if TRUE}
 }
 \description{
 only functions to calulate the parameters of jip test
