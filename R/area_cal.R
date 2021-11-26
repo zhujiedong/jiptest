@@ -17,8 +17,10 @@
 #' @export
 
 area_cal <- function(df) {
-  df$logs <- log(df$SECS)
+  df$logs <- log(df$MILLI_SEC)
+  j <- which(df$FLUOR == max(df$FLUOR))
+  df <- df[1:j,]
   n <- nrow(df)
-  auc <- with(df, sum(diff(logs)*rollmean(NORM_FLUOR,2)))
+  auc <- with(df, sum(diff(logs)*rollmean(FLUOR,2)))
   auc
 }

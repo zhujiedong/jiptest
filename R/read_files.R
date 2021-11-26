@@ -49,8 +49,9 @@ read_files <- function(file_dir) {
   n_max <- as.vector(n_max)
   n_min <- as.vector(n_min)
   ojip$NORM_FLUOR <- (ojip$FLUOR - n_min) / (n_max - n_min)
+  ojip$MILLI_SEC <- ojip$SECS * 1000
   #-------------------------------------------------------
-  ojip <- ojip[c('SECS', 'FLUOR', 'NORM_FLUOR', "SOURCE")]
+  ojip <- ojip[c('SECS', 'MILLI_SEC', 'FLUOR', 'NORM_FLUOR', "SOURCE")]
   # important to make jip the first class attribute
   class(ojip) <- c("jip", class(ojip))
   return(ojip)
