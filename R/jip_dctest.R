@@ -31,7 +31,9 @@ jip_dctest <- function(file_dir, normalized = FALSE) {
   #  fi_names <- stringr::str_replace(fi_names, ".xlsx", "")
   fi_names <-
     gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
-  fi_names <- gsub(".xlsx", "", fi_names, ignore.case = TRUE)
+
+  fi_names <- gsub(".xlsx", "", basename(fi), ignore.case = TRUE)
+
   n <- length(fi_names)
 
   array_results <- array(NA, dim = c(34, 1, n))

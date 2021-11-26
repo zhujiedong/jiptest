@@ -31,9 +31,7 @@ jip_comp <- function(jip_data, normalized = FALSE) {
   Fmx <- Tm$SECS
 
   # area should normalized by FM-FO
-  Area <- (max(jip_data$SECS)-min(jip_data$SECS)) * max(jip_data$FLUOR) -
-    MESS::auc(jip_data$SECS, jip_data$FLUOR, type = "spline")
-  Area <- Area/(Fm-Fo)
+  Area <- area_cal(jip_data)
 
   We100 <- 1 - (1 - (F300 - Fo)/(Fm - Fo))^(1/5)
   W100 <- (mean(jip_data[which(jip_data$SECS > 9e-05 & jip_data$SECS < 0.00011), ]$FLUOR) - Fo)/(Fm - Fo)
@@ -98,9 +96,8 @@ jip_comp <- function(jip_data, normalized = FALSE) {
     Fmx <- Tm$SECS
 
     # area should normalized by FM-FO
-    Area <- (max(jip_data$SECS)-min(jip_data$SECS)) * max(jip_data$FLUOR) -
-      MESS::auc(jip_data$SECS, jip_data$FLUOR, type = "spline")
-    Area <- Area/(Fm-Fo)
+    Area <- area_cal(jip_data)
+
 
     We100 <- 1 - (1 - (F300 - Fo)/(Fm - Fo))^(1/5)
     W100 <- (mean(jip_data[which(jip_data$SECS > 9e-05 & jip_data$SECS < 0.00011), ]$FLUOR) - Fo)/(Fm - Fo)

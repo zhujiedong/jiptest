@@ -24,10 +24,7 @@ read_files <- function(file_dir) {
     "\ncurrently we should use the default 1 secs settings of saturate pulse\n"
   )
   fi <- list.files(file_dir, full.names = TRUE)
-#  fi_names <- stringr::str_replace(fi, paste(file_dir, "/", sep = ""), "")
-#  fi_names <- stringr::str_replace(fi_names, ".xlsx", "")
-  fi_names <- gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
-  fi_names <- gsub(".xlsx", "", fi_names, ignore.case = TRUE)
+  fi_names <- gsub(".xlsx", "", basename(fi), ignore.case = TRUE)
 
   jip_list <- lapply(fi, readxl::read_excel, range = "D8:E931",
                      col_names = FALSE)

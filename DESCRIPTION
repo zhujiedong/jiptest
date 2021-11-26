@@ -10,12 +10,12 @@ Authors@R: c(
     )
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: readxl, MESS
+Imports: readxl, zoo
 LazyData: yes
-License: GPL-3
+License: MIT + file LICENSE
 Packaged: 2018-07-17
 Author: Jiedong Zhu [aut, cre],
   Yang Jiao [aut],
   Li Xu [aut]
 Maintainer: Jiedong Zhu <zhujiedong@yeah.net>
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

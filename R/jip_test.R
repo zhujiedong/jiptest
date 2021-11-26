@@ -28,11 +28,16 @@ jip_test <- function(file_dir, normalized = FALSE) {
 
   fi <- list.files(file_dir, full.names = TRUE)
 
-  #  fi_names <- stringr::str_replace(fi, paste(file_dir, "/", sep = ""), "")
-  #  fi_names <- stringr::str_replace(fi_names, ".xlsx", "")
+
+  # fi_names <-
+  #   gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
+  # fi_names <- gsub(".xlsx", "", fi_names, ignore.case = TRUE)
+
   fi_names <-
     gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
-  fi_names <- gsub(".xlsx", "", fi_names, ignore.case = TRUE)
+
+  fi_names <- gsub(".xlsx", "", basename(fi), ignore.case = TRUE)
+
 
   n <- length(fi_names)
 
