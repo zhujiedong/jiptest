@@ -21,7 +21,7 @@ area_cal <- function(df) {
   j <- which(df$FLUOR == max(df$FLUOR))
   df <- df[1:j,]
   n <- nrow(df)
-  auc <- with(df, sum(diff(logs)*rollmean(FLUOR,2)))
+  auc <- with(df, sum(diff(logs) * zoo::rollmean(FLUOR,2)))
   aac <- with(df,( max(FLUOR) - min(FLUOR)) * (max(logs)-min(logs)))
   aac
 }
