@@ -22,5 +22,6 @@ area_cal <- function(df) {
   df <- df[1:j,]
   n <- nrow(df)
   auc <- with(df, sum(diff(logs)*rollmean(FLUOR,2)))
-  auc
+  aac <- with(df,( max(FLUOR) - min(FLUOR)) * (max(logs)-min(logs)))
+  aac
 }
