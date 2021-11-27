@@ -29,13 +29,6 @@ jip_test <- function(file_dir, normalized = FALSE) {
   fi <- list.files(file_dir, full.names = TRUE)
 
 
-  # fi_names <-
-  #   gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
-  # fi_names <- gsub(".xlsx", "", fi_names, ignore.case = TRUE)
-
-  fi_names <-
-    gsub(paste0(file_dir, "/"), "", fi, ignore.case = TRUE)
-
   fi_names <- gsub(".xlsx", "", basename(fi), ignore.case = TRUE)
 
 
