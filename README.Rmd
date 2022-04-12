@@ -4,14 +4,16 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# install and load
+# Jiptest for LI-6800 induction data<img src="man/figures/logo.png" align="right" height="139" />
+
+## install and load
 
 ```
 devtools::install_github("zhujiedong/jiptest")
 library(jiptest)
 ```
 
-# jiptest
+## jiptest
 
 this is an R package for jip test of LI-6800 (from licor) measured fluorescence induction data. it is designed for batch readings and writings,
 
