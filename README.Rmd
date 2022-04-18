@@ -6,109 +6,85 @@ output: github_document
 
 # Jiptest for LI-6800 induction data<img src="man/figures/logo.png" align="right" height="139" />
 
+The purpose of the package are to help analysis the LI-6800 induction data with JIP test,The method of calculation are from:
+
+> Tsimilli-michael M. Revisiting JIP-test: Aneducative review on concepts, assumptions, approximations, definitions  and terminology[J].Photosynthetica,2019,57 (SI): 90-107.
+
+**As I am not a scientist, so please use with caution, and check the `jip_comp.R` for the calculations. Any feedback will be appreciated. What I am sure is convenient to help is the `plot` method.**
+
 ## install and load
 
-```
+To install: 
+
+```{.r}
 devtools::install_github("zhujiedong/jiptest")
+```
+
+To load:
+
+```{r}
 library(jiptest)
 ```
 
-## jiptest
+## Read the induction files
 
-this is an R package for jip test of LI-6800 (from licor) measured fluorescence induction data. it is designed for batch readings and writings,
+There are 2 functions for this purpose, one is `read_induction``, to read a single induction excel file:
 
-currently you should put all your excel files of the measured data in a separate folder, to avoid errors.
+```{r}
+# list all the induction excel files here
+files <- list.files("inst/extdata/ojip", full.names = TRUE)
+ojip_file1 <- read_induction(files[1])
 
-## read_files and read_dcfiles
-
-`read_files` is a function to import all the xlsx files that measured by the induction of li-6800, with there files names added to the final output.
-
-`read_dcfiles` the same with `read_files`, except that it reads the dc signals, ie demodulated signals
-
-example:
-
-```
-jip_data <- read_files("jipdata")
-```
-
-```
-jip_dcdata <- read_files("jipdata")
-```
-
-where "jipdata" is a folder contains all your measured data, and only contains the xlsx data of the induction files
-
-## jip_test and jip_dctest
-
-`jip_test`  and `jip_dctest` iperforms the jip test calculation of all your data in batch
-
-example:
-
-```
-jip_test("jipdata")
-
-```
-
-```
-jip_dctest("jipdata")
-
-```
-
-where "jipdata" is a folder contains all your measured data, and only contains the xlsx data of the induction files
-
-## plot
-
-supply a method `plot.jip` to plot, we can choose to use normalized fluorescence signals or the raw fluorescence signals, that is to say, you can customized you plot
-
-here are some examples：
-
-1. the default way, use normalized fluorescence signals
-
-```
-plot(jip_data)
-```
-
-```
-plot(jip_dcdata)
-```
-
-[default Normalized AC signal](https://imgchr.com/i/Du0tsS)
-
-[default Normalized DC signal](https://imgchr.com/i/Du08RP)
-
-2. customized way
-
-please refer to: `?plot.jip`.
-
-```
-cls <- palette.colors(n = 5,  "set 2", alpha = 0.8)
-plot(jip_data,
-     ylab = 'Normalized fluorescence signals',
-     add_leg = FALSE,
-     def_pch = 14:18,
-     col = cls,
-     main = "Demodulated signals", pch = 14, normalized = FALSE)
-
-legend(
-  "topleft",
-  unique(jip_data$SOURCE),
-  col = cls,
-  pch = 14:18,
-  cex = 0.6,
-  pt.cex = 1.2,
-  bty = "n")
+knitr::kable(head(ojip_file1))
 ```
 
 
+Another one is to read all the data files  in batch, and in a tidy data form:
+
+```{r}
+all_files <- read_all_induction("inst/extdata/ojip")
+knitr::kable(rbind(head(all_files), tail(all_files)))
 ```
-plot(jip_dcdata, legend_pos = "bottomright", normalized = FALSE)
+
+## Calculation
+
+The calculation is done by `jip_test` function, it has a parameter called `use_PAM`, the default value is FALSE, which means it use the continuous fluorescence data by default, if TRUE, it will use the PAM fluorescence.
+
+
+```{r}
+ojip_data_pam <- jip_test(ojip_file1, use_PAM = TRUE) 
+ojip_data<- jip_test(ojip_file1) 
+knitr::kable(tail(ojip_data))
+```
+You can also get all the data in a file, there is a column called `SOURCE`, that use the file name which the data come from to distinguish data from different excel files.
+
+```{.r}
+ojip_data<- jip_test(all_files) 
 ```
 
-[customized AC raw signal](https://imgchr.com/i/Du0YM8)
+## plot data
 
-[customized DC raw signal](https://imgchr.com/i/Du0Gxf)
+It is useful to view all the data through a plot, you can view an OJIP plot by the following ways:
 
-if you can read Chinese, please follow:
+### To view one file
 
-[Chinese guide](https://zhujiedong.github.io/photoanalysis/)
+```{r}
+#| layout-nrow: 1
+plot(ojip_file1, use_PAM = TRUE)
+plot(ojip_file1)
+```
 
+### To view all files
 
+```{r}
+#| layout-nrow: 1
+plot(all_files, use_PAM = TRUE)
+plot(all_files)
+```
+
+Similar to other functions with argument `use_PAM`, you can view the PAM data or the continuous data. The fluorecence data are normalized by:
+
+$$
+F=\frac{Ft-Fo}{Fm-Fo}
+$$
+it will help the Y axis in a range of 0~1.

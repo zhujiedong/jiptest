@@ -3,99 +3,178 @@
 
 # Jiptest for LI-6800 induction data<img src="man/figures/logo.png" align="right" height="139" />
 
+The purpose of the package are to help analysis the LI-6800 induction
+data with JIP test,The method of calculation are from:
+
+> Tsimilli-michael M. Revisiting JIP-test: Aneducative review on
+> concepts, assumptions, approximations, definitions and
+> terminology\[J\].Photosynthetica,2019,57 (SI): 90-107.
+
+**As I am not a scientist, so please use with caution, and check the
+`jip_comp.R` for the calculations. Any feedback will be appreciated.
+What I am sure is convenient to help is the `plot` method.**
+
 ## install and load
 
-    devtools::install_github("zhujiedong/jiptest")
-    library(jiptest)
+To install:
 
-## jiptest
+``` r
+devtools::install_github("zhujiedong/jiptest")
+```
 
-this is an R package for jip test of LI-6800 (from licor) measured
-fluorescence induction data. it is designed for batch readings and
-writings,
+To load:
 
-currently you should put all your excel files of the measured data in a
-separate folder, to avoid errors.
+``` r
+library(jiptest)
+```
 
-## read_files and read_dcfiles
+## Read the induction files
 
-`read_files` is a function to import all the xlsx files that measured by
-the induction of li-6800, with there files names added to the final
-output.
+There are 2 functions for this purpose, one is \`read_induction\`\`, to
+read a single induction excel file:
 
-`read_dcfiles` the same with `read_files`, except that it reads the dc
-signals, ie demodulated signals
+``` r
+# list all the induction excel files here
+files <- list.files("inst/extdata/ojip", full.names = TRUE)
+ojip_file1 <- read_induction(files[1])
+```
 
-example:
+    ## New names:
+    ## • `` -> `...1`
+    ## • `` -> `...2`
+    ## • `` -> `...3`
+    ## • `` -> `...4`
+    ## • `` -> `...5`
+    ## • `` -> `...6`
+    ## • `` -> `...7`
+    ## • `` -> `...8`
+    ## • `` -> `...9`
 
-    jip_data <- read_files("jipdata")
+``` r
+knitr::kable(head(ojip_file1))
+```
 
-    jip_dcdata <- read_files("jipdata")
+| EVENT_ID       | TRACE_NO |     SECS | FLUOR |     DC |     PFD | REDMODAVG | CODE | SOURCE                         | NORM_FLUOR |   NORM_DC | MILLI_SEC |
+|:---------------|:---------|---------:|------:|-------:|--------:|----------:|-----:|:-------------------------------|-----------:|----------:|----------:|
+| MARGIN         | 5        | 1.90e-06 |   971 | 163589 | 15474.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0000000 | 0.0000000 | 0.0019074 |
+| DURATION       | 1000     | 6.00e-06 |   971 | 166127 | 15468.7 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0000000 | 0.0071962 | 0.0059606 |
+| Q_RED_SETPOINT | 15000    | 1.00e-05 |  1002 | 168725 | 15468.3 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0128031 | 0.0145625 | 0.0100137 |
+| D_RED_PERCENT  | 90       | 1.41e-05 |  1118 | 171303 | 15467.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0607117 | 0.0218721 | 0.0140668 |
+| FMAX           | 3390.12  | 1.81e-05 |  1185 | 174013 | 15468.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0883830 | 0.0295560 | 0.0181198 |
+| QMAX           | 15481.4  | 2.19e-05 |  1071 | 176819 | 15468.6 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0413005 | 0.0375121 | 0.0219346 |
 
-where “jipdata” is a folder contains all your measured data, and only
-contains the xlsx data of the induction files
+Another one is to read all the data files in batch, and in a tidy data
+form:
 
-## jip_test and jip_dctest
+``` r
+all_files <- read_all_induction("inst/extdata/ojip")
+```
 
-`jip_test` and `jip_dctest` iperforms the jip test calculation of all
-your data in batch
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## • `` -> `...1`
+    ## • `` -> `...2`
+    ## • `` -> `...3`
+    ## • `` -> `...4`
+    ## • `` -> `...5`
+    ## • `` -> `...6`
+    ## • `` -> `...7`
+    ## • `` -> `...8`
+    ## • `` -> `...9`
 
-example:
+``` r
+knitr::kable(rbind(head(all_files), tail(all_files)))
+```
 
-    jip_test("jipdata")
+| EVENT_ID       | TRACE_NO |      SECS |   FLUOR |     DC |     PFD | REDMODAVG | CODE | SOURCE                          | NORM_FLUOR |   NORM_DC |   MILLI_SEC |
+|:---------------|:---------|----------:|--------:|-------:|--------:|----------:|-----:|:--------------------------------|-----------:|----------:|------------:|
+| MARGIN         | 5        | 0.0000019 |  971.00 | 163589 | 15474.2 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0000000 | 0.0000000 | 1.90740e-03 |
+| DURATION       | 1000     | 0.0000060 |  971.00 | 166127 | 15468.7 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0000000 | 0.0071962 | 5.96060e-03 |
+| Q_RED_SETPOINT | 15000    | 0.0000100 | 1002.00 | 168725 | 15468.3 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0128031 | 0.0145625 | 1.00137e-02 |
+| D_RED_PERCENT  | 90       | 0.0000141 | 1118.00 | 171303 | 15467.2 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0607117 | 0.0218721 | 1.40668e-02 |
+| FMAX           | 3390.12  | 0.0000181 | 1185.00 | 174013 | 15468.2 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0883830 | 0.0295560 | 1.81198e-02 |
+| QMAX           | 15481.4  | 0.0000219 | 1071.00 | 176819 | 15468.6 |   24.9990 |    3 | INDUCTION-26-20201026-16_07_50  |  0.0413005 | 0.0375121 | 2.19346e-02 |
+| NA             | NA       | 0.9800160 | 4129.87 | 635389 | 15117.4 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9706033 | 0.9751675 | 9.80016e+02 |
+| NA             | NA       | 0.9840160 | 4132.01 | 635327 | 15117.3 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9712629 | 0.9750420 | 9.84016e+02 |
+| NA             | NA       | 0.9880160 | 4127.78 | 635262 | 15117.1 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9699591 | 0.9749105 | 9.88016e+02 |
+| NA             | NA       | 0.9920160 | 4126.07 | 635200 | 15117.0 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9694320 | 0.9747850 | 9.92016e+02 |
+| NA             | NA       | 0.9960160 | 4127.87 | 635136 | 15116.9 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9699868 | 0.9746555 | 9.96016e+02 |
+| NA             | NA       | 1.0000200 | 4125.81 | 635077 | 15108.1 |   24.9986 |    3 | INDUCTION-486-20171225-14_33_46 |  0.9693518 | 0.9745361 | 1.00002e+03 |
 
-    jip_dctest("jipdata")
+## Calculation
 
-where “jipdata” is a folder contains all your measured data, and only
-contains the xlsx data of the induction files
+The calculation is done by `jip_test` function, it has a parameter
+called `use_PAM`, the default value is FALSE, which means it use the
+continuous fluorescence data by default, if TRUE, it will use the PAM
+fluorescence.
 
-## plot
+``` r
+ojip_data_pam <- jip_test(ojip_file1, use_PAM = TRUE) 
+ojip_data<- jip_test(ojip_file1) 
+knitr::kable(tail(ojip_data))
+```
 
-supply a method `plot.jip` to plot, we can choose to use normalized
-fluorescence signals or the raw fluorescence signals, that is to say,
-you can customized you plot
+| OJIP_PARAMETERS |       VALUES | SOURCE                         |
+|:----------------|-------------:|:-------------------------------|
+| Sm              | 1.080540e+00 | INDUCTION-26-20201026-16_07_50 |
+| N               | 1.411901e+06 | INDUCTION-26-20201026-16_07_50 |
+| RC_ABS          | 5.000000e-07 | INDUCTION-26-20201026-16_07_50 |
+| gamma_RC        | 5.000000e-07 | INDUCTION-26-20201026-16_07_50 |
+| PI_ABS          | 9.000000e-07 | INDUCTION-26-20201026-16_07_50 |
+| PI_total        | 3.000000e-07 | INDUCTION-26-20201026-16_07_50 |
 
-here are some examples：
+You can also get all the data in a file, there is a column called
+`SOURCE`, that use the file name which the data come from to distinguish
+data from different excel files.
 
-1.  the default way, use normalized fluorescence signals
+``` r
+ojip_data<- jip_test(all_files) 
+```
 
-<!-- -->
+## plot data
 
-    plot(jip_data)
+It is useful to view all the data through a plot, you can view an OJIP
+plot by the following ways:
 
-    plot(jip_dcdata)
+### To view one file
 
-[default Normalized AC signal](https://imgchr.com/i/Du0tsS)
+``` r
+plot(ojip_file1, use_PAM = TRUE)
+```
 
-[default Normalized DC signal](https://imgchr.com/i/Du08RP)
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-2.  customized way
+``` r
+plot(ojip_file1)
+```
 
-please refer to: `?plot.jip`.
+![](README_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 
-    cls <- palette.colors(n = 5,  "set 2", alpha = 0.8)
-    plot(jip_data,
-         ylab = 'Normalized fluorescence signals',
-         add_leg = FALSE,
-         def_pch = 14:18,
-         col = cls,
-         main = "Demodulated signals", pch = 14, normalized = FALSE)
+### To view all files
 
-    legend(
-      "topleft",
-      unique(jip_data$SOURCE),
-      col = cls,
-      pch = 14:18,
-      cex = 0.6,
-      pt.cex = 1.2,
-      bty = "n")
+``` r
+plot(all_files, use_PAM = TRUE)
+```
 
-    plot(jip_dcdata, legend_pos = "bottomright", normalized = FALSE)
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-[customized AC raw signal](https://imgchr.com/i/Du0YM8)
+``` r
+plot(all_files)
+```
 
-[customized DC raw signal](https://imgchr.com/i/Du0Gxf)
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
-if you can read Chinese, please follow:
+Similar to other functions with argument `use_PAM`, you can view the PAM
+data or the continuous data. The fluorecence data are normalized by:
 
-[Chinese guide](https://zhujiedong.github.io/photoanalysis/)
+![
+F=\\frac{Ft-Fo}{Fm-Fo}
+](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0AF%3D%5Cfrac%7BFt-Fo%7D%7BFm-Fo%7D%0A "
+F=\frac{Ft-Fo}{Fm-Fo}
+")
+
+it will help the Y axis in a range of 0\~1.

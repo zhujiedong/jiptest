@@ -16,12 +16,20 @@
 
 #' @export
 
-area_cal <- function(df) {
+area_cal <- function(df, use_PAM = FALSE) {
   df$logs <- log(df$MILLI_SEC)
   j <- which(df$FLUOR == max(df$FLUOR))
-  df <- df[1:j,]
-  n <- nrow(df)
-  auc <- with(df, sum(diff(logs) * zoo::rollmean(FLUOR,2)))
-  aac <- with(df,( max(FLUOR) - min(FLUOR)) * (max(logs)-min(logs)))
-  aac
+  df <- df[1:j, ]
+  if (use_PAM) {
+    auc <- with(df, sum(diff(logs) * zoo::rollmean(FLUOR, 2)))
+    a_total <- with(df, (max(FLUOR) - min(FLUOR)) * (max(logs) - min(logs)))
+  } else{
+    # df$logs <- log(df$MILLI_SEC)
+    # j <- which(df$DC == max(df$DC))
+    # df <- df[1:j, ]
+    auc <- with(df, sum(diff(logs) * zoo::rollmean(DC, 2)))
+    a_total <- with(df, (max(DC) - min(DC)) * (max(logs) - min(logs)))
+
+  }
+  return(a_total-auc)
 }

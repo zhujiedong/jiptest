@@ -2,14 +2,14 @@
 % Please edit documentation in R/jip_test.R
 \name{jip_test}
 \alias{jip_test}
-\title{apply jip test data analysis to the data measured by LI-6800 in batch}
+\title{apply jip test data analysis to the data measured by LI-6800}
 \usage{
-jip_test(file_dir, normalized = FALSE)
+jip_test(df, use_PAM = FALSE)
 }
 \arguments{
-\item{file_dir}{is the file directory only contains all the measured data saved as .xlsx.}
+\item{df}{dataframe that contains the induction data.}
 
-\item{normalized}{use normalized data if TRUE}
+\item{use_PAM}{if TRUE use the PAM fluorescence signal, else use the continiuous signal}
 }
 \description{
 return jip test parameters from the induction data measured by
@@ -24,5 +24,4 @@ take large number of data in one measurement.
 library(jiptest)
 jip_test('./ojip1_2_2', 'd:/testdata/')
 }
-
 }

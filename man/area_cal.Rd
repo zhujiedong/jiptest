@@ -4,7 +4,7 @@
 \alias{area_cal}
 \title{calculate the area under curve (BLUE > 1.2.2)}
 \usage{
-area_cal(df)
+area_cal(df, use_PAM = FALSE)
 }
 \arguments{
 \item{df}{data of a type dataframe.}

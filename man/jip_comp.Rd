@@ -4,18 +4,19 @@
 \alias{jip_comp}
 \title{compute the parameters of jip test}
 \usage{
-jip_comp(jip_data, normalized = FALSE)
+jip_comp(df, use_PAM = FALSE)
 }
 \arguments{
-\item{jip_data}{data for jip test}
+\item{df}{data for jip test}
 
-\item{normalized}{use normalized data if TRUE}
+\item{use_PAM}{if TRUE use the PAM fluorescence signal, else use the continiuous signal}
 }
 \description{
 only functions to calulate the parameters of jip test
 }
 \details{
-provide core functions for jip_test, by changing the names of the data, it can also be used by other instruments.
+provide core functions for jip_test, calculation based on Revisiting JIP-test: An educative review on concepts,
+ assumptions, approximations, definitions and terminology
 }
 \examples{
 \dontrun{

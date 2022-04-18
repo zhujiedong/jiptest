@@ -1,19 +1,17 @@
 Type: Package
 Package: jiptest
-Version: 0.1.3
+Version: 1.0.0
 Title: Jip Test For LI-6800 
 Description: A tool for the jip test of li-6800 photosynthesis system.
 Authors@R: c(
-    person("Jiedong", "Zhu", , "zhujiedong@yeah.net", c("aut", "cre")),
-    person("Yang", "Jiao", , "jiaoyang@ecotek.com.cn", role = "aut"),
-    person("Li", "Xu", role = "aut")
+    person("Jiedong", "Zhu", , "zhujiedong@yeah.net", c("aut", "cre"))
     )
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: readxl, zoo
+Imports: readxl, zoo, data.table
 LazyData: yes
 License: MIT + file LICENSE
-Packaged: 2018-07-17
+Packaged: 2022-04-19
 Author: Jiedong Zhu [aut, cre],
   Yang Jiao [aut],
   Li Xu [aut]

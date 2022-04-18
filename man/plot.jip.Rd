@@ -14,14 +14,14 @@
   leg_point_cex = 0.9,
   legend_pos = "topleft",
   xlim = c(5e-06, 1.1),
-  ylim = NULL,
+  ylim = c(0, 1),
   log = "x",
-  xlab = "Time (Secs)",
+  xlab = "Time (ms)",
   ylab = "Fluorescence signal",
   xmark = c(expression(10^{     -5 }, 10^{     -4 }, 10^{     -3 }, 10^{     -2 }, 10^{
         -1 }, 10^0)),
   xat = c(1e-05, 1e-04, 0.001, 0.01, 0.1, 1),
-  normalized = TRUE,
+  use_PAM = FALSE,
   add_leg = TRUE,
   add_grid = TRUE,
   ...
@@ -59,7 +59,7 @@ for most cases}
 
 \item{xat}{at which the x axis tick marks are ploted}
 
-\item{normalized}{whether use normorlized fluor signal}
+\item{use_PAM}{whether to use pam signal, default FALSE}
 
 \item{add_leg}{defaut is true, add lengend directly}
 
@@ -70,5 +70,5 @@ for most cases}
 \description{
 {a quick way to preview the quality
 of measured data.graphical preview of all the data
-curves in log axis (BLUE > 1.2.2)}
+curves in log axis (BLUE > 1.2.2), use normalized signal}
 }

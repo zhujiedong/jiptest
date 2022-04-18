@@ -2,7 +2,7 @@
 #'
 #' @description {a quick way to preview the quality
 #' of measured data.graphical preview of all the data
-#' curves in log axis (BLUE > 1.2.2)}
+#' curves in log axis (BLUE > 1.2.2), use normalized signal}
 #'
 #' @param df files read by \code{read_files} or \code{read_dcfiles}
 #' @param def_pch the pch of default plot method
@@ -20,7 +20,7 @@
 #' @param log inherited from plot.default
 #' @param xmark x tick marks values
 #' @param xat at which the x axis tick marks are ploted
-#' @param normalized whether use normorlized fluor signal
+#' @param use_PAM whether to use pam signal, default FALSE
 #' @param add_leg defaut is true, add lengend directly
 #' @param add_grid add grid lines in the plot if TRUE(default)
 #' @param ... other parameters in \code{plot}
@@ -43,17 +43,18 @@ plot.jip <- function(df,
                      leg_point_cex = 0.9,
                      legend_pos = "topleft",
                      xlim = c(5e-06, 1.1),
-                     ylim = NULL,
+                     ylim = c(0, 1),
                      log = "x",
-                     xlab = "Time (Secs)",
+                     xlab = "Time (ms)",
                      ylab = "Fluorescence signal",
                      xmark = c(expression(10^{-5}, 10^{-4}, 10^{-3},
                                           10^{-2}, 10^{-1}, 10^0)),
                      xat = c(0.00001, 0.0001, 0.001, 0.01, 0.1, 1),
-                     normalized = TRUE,
+                     use_PAM = FALSE,
                      add_leg = TRUE,
                      add_grid = TRUE,
                      ...){
+
   # colors ------------------------------------------------------------------
 
   ncols <- length(unique(df$SOURCE))
@@ -65,16 +66,6 @@ plot.jip <- function(df,
                      alpha = alpha,
                      recycle = TRUE)
   }
-  # normalized y axis -------------------------------------------------------
-
-  #max_flr <- with(df, tapply(FLUOR, as.factor(SOURCE), max))
-  #no. of each factors
-  #n_group <- table(fct)
-  #n_source <- unlist(mapply(rep, max_flr, each = n_group))
-  #if each elements in n_group are the same, n_source will be arry
-  #n_source <- as.vector(n_source)
-  #df$NORM_FLUOR <- df$FLUOR / n_source
-
 
 # define pch --------------------------------------------------------------
   #ifelse returns a value with the same shape as test
@@ -85,12 +76,11 @@ plot.jip <- function(df,
   }
 
 # plot --------------------------------------------------
-  if (normalized){
-    ylim <- c(0, 1.1)
+  if (use_PAM){
     with(
       df,
       plot(
-        SECS,
+        MILLI_SEC,
         NORM_FLUOR,
         log = "x",
         ylim = ylim,
@@ -116,14 +106,11 @@ plot.jip <- function(df,
         ...
       )
     }} else{
-    if (is.null(ylim)){
-      ylim <- with(df, c(min(FLUOR), 1.1 * max(FLUOR)))
-    }
     with(
       df,
       plot(
-        SECS,
-        FLUOR,
+        MILLI_SEC,
+        NORM_DC,
         log = "x",
         ylim = ylim,
         xlab = xlab,
