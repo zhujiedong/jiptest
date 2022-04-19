@@ -62,6 +62,13 @@ You can also get all the data in a file, there is a column called `SOURCE`, that
 ojip_data<- jip_test(all_files) 
 ```
 
+For most normalized calculated parameters, the differences between use_PAM or not are almost zero:
+
+```{r}
+paste('difference value of', ojip_data$OJIP_PARAMETERS, "=", ojip_data$VALUES - ojip_data_pam$VALUES)
+```
+
+
 ## plot data
 
 It is useful to view all the data through a plot, you can view an OJIP plot by the following ways:

@@ -135,6 +135,46 @@ data from different excel files.
 ojip_data<- jip_test(all_files) 
 ```
 
+For most normalized calculated parameters, the differences between
+use_PAM or not are almost zero:
+
+``` r
+paste('difference value of', ojip_data$OJIP_PARAMETERS, "=", ojip_data$VALUES - ojip_data_pam$VALUES)
+```
+
+    ##  [1] "difference value of F20us = 172828"                  
+    ##  [2] "difference value of F50us = 194769"                  
+    ##  [3] "difference value of F100us = 226884"                 
+    ##  [4] "difference value of F300us = 300152"                 
+    ##  [5] "difference value of FJ = 352927.2"                   
+    ##  [6] "difference value of FI = 473990.17"                  
+    ##  [7] "difference value of FP = 512882.72"                  
+    ##  [8] "difference value of Area = 365800.722324911"         
+    ##  [9] "difference value of FO = 172828"                     
+    ## [10] "difference value of FM = 512882.72"                  
+    ## [11] "difference value of FV = 340054.72"                  
+    ## [12] "difference value of VJ = 0.00999990549752783"        
+    ## [13] "difference value of VI = 0.0117033259273246"         
+    ## [14] "difference value of MO = 687656.18631117"            
+    ## [15] "difference value of Sm = -0.743876067841061"         
+    ## [16] "difference value of Ss = -0.000120302009516987"      
+    ## [17] "difference value of phi_Po = 0.0122677153328239"     
+    ## [18] "difference value of phi_Eo = -0.000735407538679844"  
+    ## [19] "difference value of phi_Ro = -0.00621108165913474"   
+    ## [20] "difference value of Psi_Eo = -0.00999990549752783"   
+    ## [21] "difference value of delta_Ro = -0.0192958193706238"  
+    ## [22] "difference value of ABS_RC = 1958302.41027397"       
+    ## [23] "difference value of TRo_RC = 1298402.78692407"       
+    ## [24] "difference value of ETo_RC = 610746.600612896"       
+    ## [25] "difference value of REo_RC = 148502.170298297"       
+    ## [26] "difference value of ECo_RC = -0.743876067841061"     
+    ## [27] "difference value of Sm = -0.743876067841061"         
+    ## [28] "difference value of N = 1396831.59271134"            
+    ## [29] "difference value of RC_ABS = -7.82684126465109e-05"  
+    ## [30] "difference value of gamma_RC = -7.82622077707698e-05"
+    ## [31] "difference value of PI_ABS = -0.00013480306468376"   
+    ## [32] "difference value of PI_total = -4.80287024276036e-05"
+
 ## plot data
 
 It is useful to view all the data through a plot, you can view an OJIP
@@ -146,13 +186,13 @@ plot by the following ways:
 plot(ojip_file1, use_PAM = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 plot(ojip_file1)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ### To view all files
 
@@ -160,13 +200,13 @@ plot(ojip_file1)
 plot(all_files, use_PAM = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 plot(all_files)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 Similar to other functions with argument `use_PAM`, you can view the PAM
 data or the continuous data. The fluorecence data are normalized by:
