@@ -13,14 +13,14 @@
   leg_cex = 0.6,
   leg_point_cex = 0.9,
   legend_pos = "topleft",
-  xlim = c(5e-06, 1.1),
+  xlim = NULL,
   ylim = c(0, 1),
   log = "x",
   xlab = "Time (ms)",
   ylab = "Fluorescence signal",
-  xmark = c(expression(10^{     -5 }, 10^{     -4 }, 10^{     -3 }, 10^{     -2 }, 10^{
-        -1 }, 10^0)),
-  xat = c(1e-05, 1e-04, 0.001, 0.01, 0.1, 1),
+  xmark = c(expression(10^{     -3 }, 10^{     -2 }, 10^{     -1 }, 10^{     0 }, 10^{ 
+       1 }, 10^2, 10^3)),
+  xat = c(0.001, 0.01, 0.1, 1, 10, 100, 1000),
   use_PAM = FALSE,
   add_leg = TRUE,
   add_grid = TRUE,
