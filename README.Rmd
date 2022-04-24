@@ -10,7 +10,7 @@ The purpose of the package are to help analysis the LI-6800 induction data with 
 
 > Tsimilli-michael M. Revisiting JIP-test: Aneducative review on concepts, assumptions, approximations, definitions  and terminology[J].Photosynthetica,2019,57 (SI): 90-107.
 
-**As I am not a scientist, so please use with caution, and check the `jip_comp.R` for the calculations. Any feedback will be appreciated. What I am sure is convenient to help is the `plot` method.**
+**As I am not a scientist, so please use with caution, and check the `jip_comp.R` for the calculations. Any feedback will be appreciated. What I am sure to help is the `plot` method to help view the data quickly.**
 
 ## install and load
 
@@ -35,7 +35,7 @@ There are 2 functions for this purpose, one is `read_induction``, to read a sing
 files <- list.files("inst/extdata/ojip", full.names = TRUE)
 ojip_file1 <- read_induction(files[1])
 
-knitr::kable(head(ojip_file1))
+knitr::kable(head(ojip_file1[,1:4]))
 ```
 
 
@@ -52,14 +52,18 @@ The calculation is done by `jip_test` function, it has a parameter called `use_P
 
 
 ```{r}
+#| message: false
+
 ojip_data_pam <- jip_test(ojip_file1, use_PAM = TRUE) 
 ojip_data<- jip_test(ojip_file1) 
 knitr::kable(tail(ojip_data))
 ```
 You can also get all the data in a file, there is a column called `SOURCE`, that use the file name which the data come from to distinguish data from different excel files.
 
-```{.r}
-ojip_data<- jip_test(all_files) 
+```{r}
+#| message: false
+all_data_continuous<- jip_test(all_files)
+all_data_pam <- jip_test(all_files, use_PAM = TRUE)
 ```
 
 For most normalized calculated parameters, the differences between use_PAM or not are almost zero:
@@ -95,3 +99,50 @@ $$
 F=\frac{Ft-Fo}{Fm-Fo}
 $$
 it will help the Y axis in a range of 0~1.
+
+## PCA analysis
+
+
+
+```{r}
+library("FactoMineR")
+library("factoextra")
+
+pca_df <- jip_pca(all_data_continuous)
+
+# use a short name that easy to distinguish
+pca_df$SOURCE <-  c(
+    'induction_2020',
+    'induction_2018',
+    'induction_2020',
+    'induction_2017',
+    'induction_2017',
+    'induction_2017'
+  )
+```
+
+
+To help us analyse the results with PCA, a function called `jip_pca` can help us to have a quick view of all the data. There is only one parameter for the function, that is the returned data frame from `jiptest`, to get the data for PCA analysis use continuous light:
+
+```{r}
+df <- pca_df[,-1]
+final_pca <- PCA(df, graph = FALSE)
+fviz_eig(final_pca, addlabels = TRUE)
+fviz_pca_var(final_pca)
+fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
+
+```
+
+use PAM:
+
+```{r}
+
+pca_df <- jip_pca(all_data_pam)
+
+df <- pca_df[,-1]
+final_pca <- PCA(df, graph = FALSE)
+fviz_eig(final_pca, addlabels = TRUE)
+fviz_pca_var(final_pca)
+fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
+```
+

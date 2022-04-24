@@ -28,7 +28,7 @@
 )
 }
 \arguments{
-\item{df}{files read by \code{read_files} or \code{read_dcfiles}}
+\item{df}{files read by \code{read_induction} or \code{read_all_induction}}
 
 \item{alpha}{the transparent degree of colors in the plot}
 

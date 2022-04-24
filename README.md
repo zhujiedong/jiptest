@@ -12,7 +12,8 @@ data with JIP test,The method of calculation are from:
 
 **As I am not a scientist, so please use with caution, and check the
 `jip_comp.R` for the calculations. Any feedback will be appreciated.
-What I am sure is convenient to help is the `plot` method.**
+What I am sure to help is the `plot` method to help view the data
+quickly.**
 
 ## install and load
 
@@ -51,17 +52,17 @@ ojip_file1 <- read_induction(files[1])
     ## • `` -> `...9`
 
 ``` r
-knitr::kable(head(ojip_file1))
+knitr::kable(head(ojip_file1[,1:4]))
 ```
 
-| EVENT_ID       | TRACE_NO |     SECS | FLUOR |     DC |     PFD | REDMODAVG | CODE | SOURCE                         | NORM_FLUOR |   NORM_DC | MILLI_SEC |
-|:---------------|:---------|---------:|------:|-------:|--------:|----------:|-----:|:-------------------------------|-----------:|----------:|----------:|
-| MARGIN         | 5        | 1.90e-06 |   971 | 163589 | 15474.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0000000 | 0.0000000 | 0.0019074 |
-| DURATION       | 1000     | 6.00e-06 |   971 | 166127 | 15468.7 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0000000 | 0.0071962 | 0.0059606 |
-| Q_RED_SETPOINT | 15000    | 1.00e-05 |  1002 | 168725 | 15468.3 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0128031 | 0.0145625 | 0.0100137 |
-| D_RED_PERCENT  | 90       | 1.41e-05 |  1118 | 171303 | 15467.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0607117 | 0.0218721 | 0.0140668 |
-| FMAX           | 3390.12  | 1.81e-05 |  1185 | 174013 | 15468.2 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0883830 | 0.0295560 | 0.0181198 |
-| QMAX           | 15481.4  | 2.19e-05 |  1071 | 176819 | 15468.6 |    24.999 |    3 | INDUCTION-26-20201026-16_07_50 |  0.0413005 | 0.0375121 | 0.0219346 |
+| EVENT_ID       | TRACE_NO |     SECS | FLUOR |
+|:---------------|:---------|---------:|------:|
+| MARGIN         | 5        | 1.90e-06 |   971 |
+| DURATION       | 1000     | 6.00e-06 |   971 |
+| Q_RED_SETPOINT | 15000    | 1.00e-05 |  1002 |
+| D_RED_PERCENT  | 90       | 1.41e-05 |  1118 |
+| FMAX           | 3390.12  | 1.81e-05 |  1185 |
+| QMAX           | 15481.4  | 2.19e-05 |  1071 |
 
 Another one is to read all the data files in batch, and in a tidy data
 form:
@@ -132,7 +133,8 @@ You can also get all the data in a file, there is a column called
 data from different excel files.
 
 ``` r
-ojip_data<- jip_test(all_files) 
+all_data_continuous<- jip_test(all_files)
+all_data_pam <- jip_test(all_files, use_PAM = TRUE)
 ```
 
 For most normalized calculated parameters, the differences between
@@ -156,24 +158,23 @@ paste('difference value of', ojip_data$OJIP_PARAMETERS, "=", ojip_data$VALUES - 
     ## [12] "difference value of VJ = 0.00999990549752783"        
     ## [13] "difference value of VI = 0.0117033259273246"         
     ## [14] "difference value of MO = 687656.18631117"            
-    ## [15] "difference value of Sm = -0.743876067841061"         
-    ## [16] "difference value of Ss = -0.000120302009516987"      
-    ## [17] "difference value of phi_Po = 0.0122677153328239"     
-    ## [18] "difference value of phi_Eo = -0.000735407538679844"  
-    ## [19] "difference value of phi_Ro = -0.00621108165913474"   
-    ## [20] "difference value of Psi_Eo = -0.00999990549752783"   
-    ## [21] "difference value of delta_Ro = -0.0192958193706238"  
-    ## [22] "difference value of ABS_RC = 1958302.41027397"       
-    ## [23] "difference value of TRo_RC = 1298402.78692407"       
-    ## [24] "difference value of ETo_RC = 610746.600612896"       
-    ## [25] "difference value of REo_RC = 148502.170298297"       
-    ## [26] "difference value of ECo_RC = -0.743876067841061"     
-    ## [27] "difference value of Sm = -0.743876067841061"         
-    ## [28] "difference value of N = 1396831.59271134"            
-    ## [29] "difference value of RC_ABS = -7.82684126465109e-05"  
-    ## [30] "difference value of gamma_RC = -7.82622077707698e-05"
-    ## [31] "difference value of PI_ABS = -0.00013480306468376"   
-    ## [32] "difference value of PI_total = -4.80287024276036e-05"
+    ## [15] "difference value of Ss = -0.000120302009516987"      
+    ## [16] "difference value of phi_Po = 0.0122677153328239"     
+    ## [17] "difference value of phi_Eo = -0.000735407538679844"  
+    ## [18] "difference value of phi_Ro = -0.00621108165913474"   
+    ## [19] "difference value of Psi_Eo = -0.00999990549752783"   
+    ## [20] "difference value of delta_Ro = -0.0192958193706238"  
+    ## [21] "difference value of ABS_RC = 1958302.41027397"       
+    ## [22] "difference value of TRo_RC = 1298402.78692407"       
+    ## [23] "difference value of ETo_RC = 610746.600612896"       
+    ## [24] "difference value of REo_RC = 148502.170298297"       
+    ## [25] "difference value of ECo_RC = -0.743876067841061"     
+    ## [26] "difference value of Sm = -0.743876067841061"         
+    ## [27] "difference value of N = 1396831.59271134"            
+    ## [28] "difference value of RC_ABS = -7.82684126465109e-05"  
+    ## [29] "difference value of gamma_RC = -7.82622077707698e-05"
+    ## [30] "difference value of PI_ABS = -0.00013480306468376"   
+    ## [31] "difference value of PI_total = -4.80287024276036e-05"
 
 ## plot data
 
@@ -186,13 +187,13 @@ plot by the following ways:
 plot(ojip_file1, use_PAM = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 plot(ojip_file1)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 ### To view all files
 
@@ -200,13 +201,13 @@ plot(ojip_file1)
 plot(all_files, use_PAM = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 plot(all_files)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
 
 Similar to other functions with argument `use_PAM`, you can view the PAM
 data or the continuous data. The fluorecence data are normalized by:
@@ -218,3 +219,77 @@ F=\frac{Ft-Fo}{Fm-Fo}
 ")
 
 it will help the Y axis in a range of 0\~1.
+
+## PCA analysis
+
+``` r
+library("FactoMineR")
+library("factoextra")
+```
+
+    ## Loading required package: ggplot2
+
+    ## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+
+``` r
+pca_df <- jip_pca(all_data_continuous)
+
+# use a short name that easy to distinguish
+pca_df$SOURCE <-  c(
+    'induction_2020',
+    'induction_2018',
+    'induction_2020',
+    'induction_2017',
+    'induction_2017',
+    'induction_2017'
+  )
+```
+
+To help us analyse the results with PCA, a function called `jip_pca` can
+help us to have a quick view of all the data. There is only one
+parameter for the function, that is the returned data frame from
+`jiptest`, to get the data for PCA analysis use continuous light:
+
+``` r
+df <- pca_df[,-1]
+final_pca <- PCA(df, graph = FALSE)
+fviz_eig(final_pca, addlabels = TRUE)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+fviz_pca_var(final_pca)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
+
+``` r
+fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
+
+use PAM:
+
+``` r
+pca_df <- jip_pca(all_data_pam)
+
+df <- pca_df[,-1]
+final_pca <- PCA(df, graph = FALSE)
+fviz_eig(final_pca, addlabels = TRUE)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+``` r
+fviz_pca_var(final_pca)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+
+``` r
+fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-3.png)<!-- -->

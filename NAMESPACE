@@ -3,6 +3,7 @@
 S3method(plot,jip)
 export(area_cal)
 export(jip_comp)
+export(jip_pca)
 export(jip_test)
 export(read_all_induction)
 export(read_induction)

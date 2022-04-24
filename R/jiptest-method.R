@@ -4,7 +4,7 @@
 #' of measured data.graphical preview of all the data
 #' curves in log axis (BLUE > 1.2.2), use normalized signal}
 #'
-#' @param df files read by \code{read_files} or \code{read_dcfiles}
+#' @param df files read by \code{read_induction} or \code{read_all_induction}
 #' @param def_pch the pch of default plot method
 #' @param alpha the transparent degree of colors in the plot
 #' @param legend_pos inherited from \code{legend} position
