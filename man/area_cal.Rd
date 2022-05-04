@@ -8,6 +8,8 @@ area_cal(df, use_PAM = FALSE)
 }
 \arguments{
 \item{df}{data of a type dataframe.}
+
+\item{use_PAM}{indicate to use PAM or continuous fluorescence signals}
 }
 \description{
 use a method similar method like trapezium intergration

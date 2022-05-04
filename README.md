@@ -222,6 +222,11 @@ it will help the Y axis in a range of 0\~1.
 
 ## PCA analysis
 
+To help us analyse the results with PCA, a function called `jip_pca` can
+help us to have a quick view of all the data. There is only one
+parameter for the function, that is the returned data frame from
+`jiptest`, to get the data for PCA analysis use continuous light:
+
 ``` r
 library("FactoMineR")
 library("factoextra")
@@ -233,22 +238,42 @@ library("factoextra")
 
 ``` r
 pca_df <- jip_pca(all_data_continuous)
-
-# use a short name that easy to distinguish
-pca_df$SOURCE <-  c(
-    'induction_2020',
-    'induction_2018',
-    'induction_2020',
-    'induction_2017',
-    'induction_2017',
-    'induction_2017'
-  )
 ```
 
-To help us analyse the results with PCA, a function called `jip_pca` can
-help us to have a quick view of all the data. There is only one
-parameter for the function, that is the returned data frame from
-`jiptest`, to get the data for PCA analysis use continuous light:
+Assume that these excel file in the folder of ojip contains flies of
+different treatments (actually they belong to different species that
+test in different years), we assume data from the same year (indicated
+by the file names) are the same treatment. we should change the column
+of `SOURCE` in the data file to what treatment they belongs, not the
+file names they are from:
+
+First we should check the file names of `SOURCE`:
+
+``` r
+pca_df$SOURCE
+```
+
+    ## [1] "INDUCTION-26-20201026-16_07_50"   "INDUCTION-2896-20180802-09_27_02"
+    ## [3] "INDUCTION-4188-20201116-10_53_39" "INDUCTION-484-20171225-13_15_58" 
+    ## [5] "INDUCTION-485-20171225-14_12_14"  "INDUCTION-486-20171225-14_33_46"
+
+Then we can use a function from `jiptest` to help change the `SOURCE`
+column to different groups that indicate treatments/replications etc.
+
+``` r
+# use a short name that easy to distinguish
+treatment <-
+  c('2020_species',
+    '2018_spices',
+    '2020_species',
+    rep('2017_spices', 3))
+
+pca_df$SOURCE <- sub_name(pca_df, treatment)
+pca_df$SOURCE
+```
+
+    ## [1] "2020_species" "2018_spices"  "2020_species" "2017_spices"  "2017_spices" 
+    ## [6] "2017_spices"
 
 ``` r
 df <- pca_df[,-1]
@@ -256,21 +281,21 @@ final_pca <- PCA(df, graph = FALSE)
 fviz_eig(final_pca, addlabels = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 fviz_pca_var(final_pca)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
 
 ``` r
 fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
 
-use PAM:
+To use PAM:
 
 ``` r
 pca_df <- jip_pca(all_data_pam)
@@ -280,16 +305,16 @@ final_pca <- PCA(df, graph = FALSE)
 fviz_eig(final_pca, addlabels = TRUE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 fviz_pca_var(final_pca)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->
 
 ``` r
 fviz_pca_ind(final_pca, repel = TRUE, col.ind= pca_df$SOURCE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-3.png)<!-- -->

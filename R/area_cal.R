@@ -2,7 +2,7 @@
 #' @description use a method similar method like trapezium intergration
 #'
 #' @param df data of a type dataframe.
-#'
+#' @param use_PAM indicate to use PAM or continuous fluorescence signals
 #' @details
 #'
 #' use Soto's answer as
