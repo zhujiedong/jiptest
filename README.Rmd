@@ -28,9 +28,12 @@ library(jiptest)
 
 ## Read the induction files
 
-There are 2 functions for this purpose, one is `read_induction``, to read a single induction excel file:
+There are 2 functions for this purpose, one is `read_induction`, it is meant to read a single induction excel file:
 
 ```{r}
+#| message: false
+#| warning: flase
+
 # list all the induction excel files here
 files <- list.files("inst/extdata/ojip", full.names = TRUE)
 ojip_file1 <- read_induction(files[1])
@@ -39,7 +42,7 @@ knitr::kable(head(ojip_file1[,1:4]))
 ```
 
 
-Another one is to read all the data files  in batch, and in a tidy data form:
+Another one is a wrap of `read_induction`, just help to read all excel data in a folder, and in a so called tidy data form:
 
 ```{r}
 all_files <- read_all_induction("inst/extdata/ojip")
@@ -48,20 +51,24 @@ knitr::kable(rbind(head(all_files), tail(all_files)))
 
 ## Calculation
 
-The calculation is done by `jip_test` function, it has a parameter called `use_PAM`, the default value is FALSE, which means it use the continuous fluorescence data by default, if TRUE, it will use the PAM fluorescence.
+The calculation is done by `jip_test` function, it has a parameter called `use_PAM`, the default value is FALSE, which means it will use the DC  (continuous fluorescence) data by default (recomended as it has high signal/noise ratio), else it will use the AC (PAM) fluorescence.
 
 
 ```{r}
 #| message: false
+#| warning: flase
 
 ojip_data_pam <- jip_test(ojip_file1, use_PAM = TRUE) 
 ojip_data<- jip_test(ojip_file1) 
 knitr::kable(tail(ojip_data))
 ```
-You can also get all the data in a file, there is a column called `SOURCE`, that use the file name which the data come from to distinguish data from different excel files.
+
+There is a column called `SOURCE`, which use the file name of each excel file to distinguish where these data come from.
+
 
 ```{r}
 #| message: false
+
 all_data_continuous<- jip_test(all_files)
 all_data_pam <- jip_test(all_files, use_PAM = TRUE)
 ```
@@ -69,13 +76,13 @@ all_data_pam <- jip_test(all_files, use_PAM = TRUE)
 For most normalized calculated parameters, the differences between use_PAM or not are almost zero:
 
 ```{r}
-paste('difference value of', ojip_data$OJIP_PARAMETERS, "=", ojip_data$VALUES - ojip_data_pam$VALUES)
+cat(sprintf("difference value of %s are:\n %.3f\n", ojip_data$OJIP_PARAMETERS, ojip_data$VALUES - ojip_data_pam$VALUES))
 ```
 
 
 ## plot data
 
-It is useful to view all the data through a plot, you can view an OJIP plot by the following ways:
+It is helpful to view all the data through a plot, you can view an OJIP plot by the following ways:
 
 ### To view one file
 
@@ -100,6 +107,38 @@ F=\frac{Ft-Fo}{Fm-Fo}
 $$
 it will help the Y axis in a range of 0~1.
 
+
+Assume my example data (these excel file in the folder of ojip) contains flies of different treatments (actually they belong to different species that test in different years), we assume data from the same year (indicated by the file names) are the same treatment. we should change the column of `SOURCE` in the data file to assign what treatment they really belongs to, to substitute the excel file names when they are imported:
+
+First we should check the file names of `SOURCE`:
+
+
+```{r}
+unique(all_files$SOURCE)
+```
+
+Then we can use a function from `jiptest` called `sub_name` to help change the `SOURCE` column to different groups that indicate treatments/replications etc.
+
+```{r}
+# use a short name that easy to distinguish
+rep_all <-
+  c('2020_species',
+    '2018_spices',
+    '2020_species',
+    rep('2017_spices', 3))
+df <- all_files
+df$SOURCE <- sub_name(df, rep_all)
+```
+
+```{r}
+#| layout-nrow: 1
+plot(all_files)
+plot(df)
+```
+
+It is more clear to use the 'real groups' between data files to view differences between treatments/replications.
+
+
 ## PCA analysis
 
 To help us analyse the results with PCA, a function called `jip_pca` can help us to have a quick view of all the data. There is only one parameter for the function, that is the returned data frame from `jiptest`, to get the data for PCA analysis use continuous light:
@@ -112,16 +151,16 @@ pca_df <- jip_pca(all_data_continuous)
                   
 ```
 
-Assume that these excel file in the folder of ojip contains flies of different treatments (actually they belong to different species that test in different years), we assume data from the same year (indicated by the file names) are the same treatment. we should change the column of `SOURCE` in the data file to what treatment they belongs, not the file names they are from:
+We can also use the same method to group the imported data from the excel files:
 
-First we should check the file names of `SOURCE`:
+First we should check the file names of `SOURCE` (recommended in case the wrong sequense happend):
 
 
 ```{r}
 pca_df$SOURCE
 ```
 
-Then we can use a function from `jiptest` to help change the `SOURCE` column to different groups that indicate treatments/replications etc.
+Then we can also use `sun_name` to help change the `SOURCE` column to different groups that indicate treatments/replications etc.
 
 ```{r}
 # use a short name that easy to distinguish
