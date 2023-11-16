@@ -106,14 +106,14 @@ ojip_data<- jip_test(ojip_file1)
 knitr::kable(tail(ojip_data))
 ```
 
-| OJIP_PARAMETERS |       VALUES | SOURCE                         |
-|:----------------|-------------:|:-------------------------------|
-| Sm              | 1.080540e+00 | INDUCTION-26-20201026-16_07_50 |
-| N               | 1.411901e+06 | INDUCTION-26-20201026-16_07_50 |
-| RC_ABS          | 5.000000e-07 | INDUCTION-26-20201026-16_07_50 |
-| gamma_RC        | 5.000000e-07 | INDUCTION-26-20201026-16_07_50 |
-| PI_ABS          | 9.000000e-07 | INDUCTION-26-20201026-16_07_50 |
-| PI_total        | 3.000000e-07 | INDUCTION-26-20201026-16_07_50 |
+| OJIP_PARAMETERS |    VALUES | SOURCE                         |
+|:----------------|----------:|:-------------------------------|
+| Sm              | 1.0805398 | INDUCTION-26-20201026-16_07_50 |
+| N               | 2.5284892 | INDUCTION-26-20201026-16_07_50 |
+| RC_ABS          | 0.2833070 | INDUCTION-26-20201026-16_07_50 |
+| gamma_RC        | 0.2207632 | INDUCTION-26-20201026-16_07_50 |
+| PI_ABS          | 0.4950338 | INDUCTION-26-20201026-16_07_50 |
+| PI_total        | 0.1591446 | INDUCTION-26-20201026-16_07_50 |
 
 There is a column called `SOURCE`, which use the file name of each excel
 file to distinguish where these data come from.
@@ -157,9 +157,9 @@ cat(sprintf("difference value of %s are:\n %.3f\n", ojip_data$OJIP_PARAMETERS, o
     ##  difference value of VI are:
     ##  0.012
     ##  difference value of MO are:
-    ##  687656.186
+    ##  0.067
     ##  difference value of Ss are:
-    ##  -0.000
+    ##  -0.016
     ##  difference value of phi_Po are:
     ##  0.012
     ##  difference value of phi_Eo are:
@@ -171,27 +171,27 @@ cat(sprintf("difference value of %s are:\n %.3f\n", ojip_data$OJIP_PARAMETERS, o
     ##  difference value of delta_Ro are:
     ##  -0.019
     ##  difference value of ABS_RC are:
-    ##  1958302.410
+    ##  0.061
     ##  difference value of TRo_RC are:
-    ##  1298402.787
+    ##  0.083
     ##  difference value of ETo_RC are:
-    ##  610746.601
+    ##  0.017
     ##  difference value of REo_RC are:
-    ##  148502.170
+    ##  -0.017
     ##  difference value of ECo_RC are:
     ##  -0.744
     ##  difference value of Sm are:
     ##  -0.744
     ##  difference value of N are:
-    ##  1396831.593
+    ##  -1.589
     ##  difference value of RC_ABS are:
-    ##  -0.000
+    ##  -0.005
     ##  difference value of gamma_RC are:
-    ##  -0.000
+    ##  -0.003
     ##  difference value of PI_ABS are:
-    ##  -0.000
+    ##  -0.002
     ##  difference value of PI_total are:
-    ##  -0.000
+    ##  -0.018
 
 ## plot data
 
@@ -229,9 +229,9 @@ plot(all_files)
 Similar to other functions with argument `use_PAM`, you can view the PAM
 data or the continuous data. The fluorecence data are normalized by:
 
-![F=\frac{Ft-Fo}{Fm-Fo}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;F%3D%5Cfrac%7BFt-Fo%7D%7BFm-Fo%7D "F=\frac{Ft-Fo}{Fm-Fo}")
-
-it will help the Y axis in a range of 0\~1.
+$$
+F=\frac{Ft-Fo}{Fm-Fo}
+$$ it will help the Y axis in a range of 0\~1.
 
 Assume my example data (these excel file in the folder of ojip) contains
 flies of different treatments (actually they belong to different species
