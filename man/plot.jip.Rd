@@ -18,8 +18,18 @@
   log = "x",
   xlab = "Time (ms)",
   ylab = "Fluorescence signal",
-  xmark = c(expression(10^{     -3 }, 10^{     -2 }, 10^{     -1 }, 10^{     0 }, 10^{ 
-       1 }, 10^2, 10^3)),
+  xmark = c(expression(10^{
+     -3
+ }, 10^{
+     -2
+ }, 10^{
+     -1
+ }, 10^{
+     0
+ },
+    10^{
+     1
+ }, 10^2, 10^3)),
   xat = c(0.001, 0.01, 0.1, 1, 10, 100, 1000),
   use_PAM = FALSE,
   add_leg = TRUE,

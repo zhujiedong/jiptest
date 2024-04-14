@@ -8,12 +8,10 @@ Authors@R: c(
     )
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: readxl, zoo, data.table
+Imports: openxlsx2, zoo, data.table
 LazyData: yes
 License: MIT + file LICENSE
-Packaged: 2022-04-19
-Author: Jiedong Zhu [aut, cre],
-  Yang Jiao [aut],
-  Li Xu [aut]
+Packaged: 2024-04-14
+Author: Jiedong Zhu [aut, cre]
 Maintainer: Jiedong Zhu <zhujiedong@yeah.net>
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1

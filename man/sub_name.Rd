@@ -7,8 +7,10 @@
 sub_name(df, category)
 }
 \arguments{
-\item{df}{data of a type dataframe (contains the SOURCE column that specify which
-excel files that the data have come fromm).}
+\item{df}{data of a type data frame (contains the SOURCE column that specify which
+excel files that the data have come from).}
+
+\item{category}{a vector of strings that used to distinguish where the data are come from}
 }
 \description{
 to separate the data related to the excel files. add a new column

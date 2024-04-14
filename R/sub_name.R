@@ -2,8 +2,9 @@
 #' @description to separate the data related to the excel files. add a new column
 #' of data that represent the treatment/replications etc.
 #'
-#' @param df data of a type dataframe (contains the SOURCE column that specify which
-#' excel files that the data have come fromm).
+#' @param df data of a type data frame (contains the SOURCE column that specify which
+#' excel files that the data have come from).
+#' @param category a vector of strings that used to distinguish where the data are come from
 #'
 #' @details
 #'

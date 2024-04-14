@@ -15,24 +15,23 @@
 #' @export
 
 read_induction <- function(path) {
-  df <- readxl::read_excel(path, skip = 1, col_names = FALSE)
+  df <- openxlsx2::read_xlsx(path)
   df$SOURCE <- gsub(".xlsx", "", basename(path), ignore.case = TRUE)
-  names(df) <-
-    c('EVENT_ID',
-      'TRACE_NO',
-      'space',
-      'SECS',
-      'FLUOR',
-      'DC',
-      'PFD',
-      'REDMODAVG',
-      'CODE',
-      'SOURCE')
+  x = c('EVENT_ID',
+        'TRACE_NO',
+        'SECS',
+        'FLUOR',
+        'DC',
+        'PFD',
+        'REDMODAVG',
+        'CODE',
+        'SOURCE')
   # normalized y axis -------------------------------------------
   #no. of each factors
+
+  df = df[intersect(x, names(df))]
   n <- which(df$CODE %in% (3:6))
   df <- df[n, ]
-  df$space <- NULL
 
   df$NORM_FLUOR <- (df$FLUOR - min(df$FLUOR)) / (max(df$FLUOR) - min(df$FLUOR))
   df$NORM_DC <- (df$DC-min(df$DC))/(max(df$DC)-min(df$DC))
