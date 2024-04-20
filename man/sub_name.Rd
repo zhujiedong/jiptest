@@ -10,7 +10,7 @@ sub_name(df, category)
 \item{df}{data of a type data frame (contains the SOURCE column that specify which
 excel files that the data have come from).}
 
-\item{category}{a vector of strings that used to distinguish where the data are come from}
+\item{category}{a character verctor to group the data}
 }
 \description{
 to separate the data related to the excel files. add a new column

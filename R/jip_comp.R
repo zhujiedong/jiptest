@@ -51,7 +51,7 @@ jip_comp <- function(df, use_PAM = FALSE) {
     VJ <- (FJ - FO) / FV
     VI <- (FI - FO) / FV
 
-    MO <- 4 * (F300us * F50us) / FV
+    MO <- 4 * (F300us - F50us) / FV
     Sm <- Area / FV
     Ss <- VJ / MO
     #Vav <- 1 - (Sm / tFm)
@@ -85,7 +85,7 @@ jip_comp <- function(df, use_PAM = FALSE) {
 
     # Performance indexes
 
-    PI_ABS <- gamma_RC/(1 - gamma_RC) * (phi_Po)/(1-phi_Po) * Psi_Eo/(1-Psi_Eo)
+    PI_ABS <- (gamma_RC/(1 - gamma_RC)) * (phi_Po/(1-phi_Po)) * (Psi_Eo/(1-Psi_Eo))
     PI_total <-PI_ABS * delta_Ro/(1- delta_Ro)
 
   } else{
@@ -119,7 +119,7 @@ jip_comp <- function(df, use_PAM = FALSE) {
     VJ <- (FJ - FO) / FV
     VI <- (FI - FO) / FV
 
-    MO <- 4 * (F300us * F50us) / FV
+    MO <- 4 * (F300us - F50us) / FV
     Sm <- Area / FV
     Ss <- VJ / MO
     #Vav <- 1 - (Sm / tFm)
@@ -153,7 +153,7 @@ jip_comp <- function(df, use_PAM = FALSE) {
 
     # Performance indexes
 
-    PI_ABS <- gamma_RC/(1 - gamma_RC) * (phi_Po)/(1-phi_Po) * Psi_Eo/(1-Psi_Eo)
+    PI_ABS <- (gamma_RC/(1 - gamma_RC)) * (phi_Po/(1-phi_Po)) * (Psi_Eo/(1-Psi_Eo))
     PI_total <-PI_ABS * delta_Ro/(1- delta_Ro)
   }
   VALUES <-

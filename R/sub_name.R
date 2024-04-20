@@ -4,7 +4,7 @@
 #'
 #' @param df data of a type data frame (contains the SOURCE column that specify which
 #' excel files that the data have come from).
-#' @param category a vector of strings that used to distinguish where the data are come from
+#' @param category a character verctor to group the data
 #'
 #' @details
 #'
